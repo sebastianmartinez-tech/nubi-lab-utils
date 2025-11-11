@@ -1,6 +1,6 @@
 {
     "name": "@sebamar88/utils",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "type": "module",
     "description": "Modern TypeScript utility toolkit for the Nubi Lab team (HTTP client, logging, helpers)",
     "imports": {
