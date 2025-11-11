@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "NodeNext",
+        "moduleResolution": "nodenext",
+        "lib": ["ESNext", "DOM"],
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "outDir": "dist",
+        "rootDir": "src",
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "moduleDetection": "force",
+        "resolveJsonModule": true,
+        "baseUrl": ".",
+        "paths": {
+            "#core/*": ["src/utils/core/*"],
+            "#utils/*": ["src/utils/*"],
+            "#helpers/*": ["src/utils/helpers/*"]
+        }
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"]
+}
