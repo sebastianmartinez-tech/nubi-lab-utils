@@ -1,7 +1,7 @@
 # @sebamar88/utils
 
-**EN:** Modern TypeScript utilities for Nubi Lab services: an isomorphic **HttpClient**, structured logging/profiling helpers, and ready-to-use modules (`DateUtils`, `StringUtils`, `StorageManager`, etc.).  
-**ES:** Colección moderna de utilidades TypeScript para los servicios de Nubi Lab: **HttpClient** isomórfico, logging/profiling estructurado y helpers listos (`DateUtils`, `StringUtils`, `StorageManager`, etc.).
+**EN:** Modern TypeScript utilities for Nubi Lab services: an isomorphic **ApiClient**, structured logging/profiling helpers, and ready-to-use modules (`DateUtils`, `StringUtils`, `StorageManager`, etc.).  
+**ES:** Colección moderna de utilidades TypeScript para los servicios de Nubi Lab: **ApiClient** isomórfico, logging/profiling estructurado y helpers listos (`DateUtils`, `StringUtils`, `StorageManager`, etc.).
 
 ---
 
@@ -14,7 +14,7 @@
 
 -   ✅ **EN:** Fully ESM with `.d.ts` definitions. **ES:** Build 100 % ESM con tipos listos.
 -   🌐 **EN:** Works on Node.js 18+ and modern browsers (via `cross-fetch`). **ES:** Compatible con Node.js 18+ y navegadores modernos (usa `cross-fetch`).
--   🔁 **EN:** HttpClient with retries, localized errors, flexible options. **ES:** HttpClient con reintentos, errores localizados y configuración flexible.
+-   🔁 **EN:** ApiClient with retries, localized errors, flexible options. **ES:** ApiClient con reintentos, errores localizados y configuración flexible.
 -   🧩 **EN:** Helper modules (strings, dates, validators, env, storage). **ES:** Helpers para strings, fechas, validadores, env y storage.
 -   🪵 **EN:** Structured logging/profiling: `createLogger`, `Profiler`, `withTiming`. **ES:** Logging/profiling estructurado: `createLogger`, `Profiler`, `withTiming`.
 
@@ -30,13 +30,13 @@ pnpm add @sebamar88/utils
 
 ```ts
 import {
-    HttpClient,
+    ApiClient,
     createLogger,
     DateUtils,
     StringUtils,
 } from "@sebamar88/utils";
 
-const http = new HttpClient({
+const http = new ApiClient({
     baseUrl: "https://api.my-service.com",
     defaultHeaders: { "X-Team": "@sebamar88" },
     locale: "es",
@@ -60,10 +60,10 @@ logger.debug("Next sync ETA (days)", {
 const slug = StringUtils.slugify("New Users – October 2024");
 ```
 
-**EN:** Import everything from the root entry, configure the HttpClient once, reuse helpers everywhere.  
-**ES:** Importá desde la raíz, configurá el HttpClient una sola vez y reutilizá los helpers en todos tus servicios.
+**EN:** Import everything from the root entry, configure the ApiClient once, reuse helpers everywhere.  
+**ES:** Importá desde la raíz, configurá el ApiClient una sola vez y reutilizá los helpers en todos tus servicios.
 
-## HttpClient Details / Detalles del HttpClient
+## ApiClient Details / Detalles del ApiClient
 
 -   `baseUrl`: **EN** required prefix for relative endpoints. **ES** prefijo requerido para endpoints relativos.
 -   `defaultHeaders`: **EN** shared headers merged per request. **ES** cabeceras comunes que se combinan en cada request.
@@ -119,7 +119,70 @@ const apiKey = env.require("API_KEY");
 -   `Validator`: **EN** lightweight synchronous validators. **ES** validadores sincrónicos livianos.
 -   `StorageManager`: **EN** safe wrapper for `localStorage`/`sessionStorage`. **ES** adaptador seguro para storage del navegador.
 
-## Helper Reference / Referencia de helpers
+## Toolkit Catalog / Catálogo de herramientas
+
+### ApiClient
+
+-   **EN**: Typed HTTP client with retries, localized errors, interceptors, and custom fetch support for Node/browsers.  
+    **ES**: Cliente HTTP tipado con reintentos, errores localizados, interceptores y `fetch` personalizable para Node/navegadores.
+
+```ts
+import { ApiClient } from "@sebamar88/utils";
+
+const api = new ApiClient({
+    baseUrl: "https://api.example.com",
+    defaultHeaders: { "X-Team": "nubi" },
+});
+
+const user = await api.get("/users/1", {
+    searchParams: { locale: "es" },
+});
+```
+
+### createLogger
+
+-   **EN**: Structured logger with levels, namespaces, transports for Node/browser, and child loggers.  
+    **ES**: Logger estructurado con niveles, namespaces, transports para Node/browser y loggers hijos.
+
+```ts
+import { createLogger } from "@sebamar88/utils";
+
+const logger = createLogger({ namespace: "payments", level: "info" });
+logger.warn("payment delayed", { id: "tx_1" });
+
+const workerLogger = logger.child("worker");
+workerLogger.debug("processing batch", { size: 20 });
+```
+
+### Timing & Debug Utilities
+
+-   **EN**: `createStopwatch`, `withTiming`, `measureAsync`, `captureDebug`, and `Profiler` help you capture execution times and emit logs automatically.  
+    **ES**: `createStopwatch`, `withTiming`, `measureAsync`, `captureDebug` y `Profiler` facilitan medir tiempos y loguear automáticamente.
+
+```ts
+import {
+    createStopwatch,
+    withTiming,
+    measureAsync,
+    Profiler,
+} from "@sebamar88/utils";
+
+const stopwatch = createStopwatch({ label: "sync-users" });
+// ... run task
+stopwatch.log({ records: 42 });
+
+await withTiming("refresh-cache", async () => fetchCache());
+const { result, durationMs } = await measureAsync(
+    "bill-run",
+    () => processBills()
+);
+
+const profiler = new Profiler();
+profiler.start("db");
+await queryDb();
+profiler.end("db");
+console.table(profiler.summary());
+```
 
 ### DateUtils
 
