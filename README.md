@@ -263,6 +263,29 @@ Validator.isLocalPhone("11 5555-7777", "es-AR");
 -   Node.js >= 18 (ESM, `fetch`, `AbortController`, `URL`).
 -   Modern browsers (ships optional `cross-fetch` polyfill).
 
+## CLI scaffolding / Generador CLI
+
+**EN:** Install the package globally or invoke it with `npx`. The `sutils` binary scaffolds resource folders with ApiClient-powered CRUD helpers and ready-to-use React Query hooks.
+**ES:** Instalá el paquete globalmente o usalo con `npx`. El binario `sutils` crea carpetas por recurso con helpers de ApiClient y hooks listos para React Query.
+
+```bash
+npx sutils create users
+```
+
+### What is generated / Qué se genera
+
+- `api/<resource>/index.ts`: typed CRUD helpers built on `@sebamar88/utils`' `ApiClient`, including shape placeholders, filter helpers, and `list/get/create/update/delete` functions.
+- `hooks/<resource>/use<ResourcePlural>.ts`: React Query hooks (`use<ResourcePlural>`, `use<Resource>`, `useCreate<Resource>`, `useUpdate<Resource>`, `useDelete<Resource>`) that invalidate the corresponding queries and wire mutations to `@tanstack/react-query`.
+- `hooks/<resource>/index.ts`: re-exports the generated hooks.
+
+The generator accepts `--apiDir`, `--hooksDir`, `--route`, and `--force`; directories default to `api`/`hooks`, the route defaults to the resource name, and `--force` overwrites existing files. It also respects nested resource paths like `admin/users`.
+
+React Query must be available in the consuming project (`npm install @tanstack/react-query`), and the hooks expect an `ApiClient` instance that you pass as the first argument.
+
+```bash
+npx sutils create payments --apiDir=services --hooksDir=app/hooks --route=/billing/payments --force
+```
+
 ## License / Licencia
 
 MIT © 2024 Sebastián Martinez

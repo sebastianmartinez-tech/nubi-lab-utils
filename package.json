@@ -3,13 +3,11 @@
     "version": "0.1.7",
     "type": "module",
     "description": "Modern TypeScript utility toolkit for the Nubi Lab team (HTTP client, logging, helpers)",
-    "imports": {
-        "#core/*": "./dist/utils/core/*",
-        "#utils/*": "./dist/utils/*",
-        "#helpers/*": "./dist/utils/helpers/*"
-    },
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
+    "bin": {
+        "sutils": "./bin/sutils.js"
+    },
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -24,7 +22,8 @@
         "prepublishOnly": "npm run lint && npm run clean && npm run build"
     },
     "files": [
-        "dist"
+        "dist",
+        "bin"
     ],
     "keywords": [
         "nubi",

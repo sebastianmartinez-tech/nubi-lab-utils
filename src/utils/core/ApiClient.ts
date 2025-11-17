@@ -1,6 +1,6 @@
 import crossFetch from "cross-fetch";
-import { Logger } from "#core/Logger.js";
-import { StringUtils } from "#helpers/StringUtils.js";
+import { Logger } from "./Logger.js";
+import { StringUtils } from "../helpers/StringUtils.js";
 
 export type QueryParamValue = string | number | boolean | null | undefined;
 export type QueryParam =
